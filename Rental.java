@@ -16,10 +16,6 @@ public class Rental {
 		return video;
 	}
 
-	public void setVideo(Video video) {
-		this.video = video;
-	}
-
 	public RentalStatus getRentalStatus() {
 		return rentalStatus;
 	}
@@ -28,7 +24,7 @@ public class Rental {
 	}
 
 	public void returnVideo() {
-		if (isReturned(RentalStatus.Rented)) {
+		if (isReturned()) {
 			setRentalStatus(RentalStatus.Returned);
 			returnDate = new Date() ;
 			getVideo().setRented(false);
@@ -38,16 +34,8 @@ public class Rental {
 		return rentDate;
 	}
 
-	public void setRentDate(Date rentDate) {
-		this.rentDate = rentDate;
-	}
-
 	public Date getReturnDate() {
 		return returnDate;
-	}
-
-	public void setReturnDate(Date returnDate) {
-		this.returnDate = returnDate;
 	}
 
 	public int getDaysRentedLimit() {
@@ -62,8 +50,9 @@ public class Rental {
 	public int getDaysRented() {
 		int daysRented;
 		long diff;
-		if (isReturned(RentalStatus.Returned)) { // returned Video
-			diff = returnDate.getTime() - rentDate.getTime();
+		if (isReturned()) { // returned Video
+			diff =
+					getReturnDate().getTime() - getRentDate().getTime();
 		} else { // not yet returned
 			diff = new Date().getTime() - rentDate.getTime();
 		}
@@ -71,8 +60,8 @@ public class Rental {
 		return daysRented;
 	}
 
-	private boolean isReturned(RentalStatus returned) {
-		return getRentalStatus() == returned;
+	private boolean isReturned() {
+		return getRentalStatus() == RentalStatus.Returned;
 	}
 
 
