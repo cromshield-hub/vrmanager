@@ -2,13 +2,13 @@ import java.util.Date;
 
 public class Rental {
 	private Video video ;
-	private int status ; // 0 for Rented, 1 for Returned
+	private RentalStatus rentalStatus; // 0 for Rented, 1 for Returned
 	private Date rentDate ;
 	private Date returnDate ;
 
 	public Rental(Video video) {
 		this.video = video ;
-		status = 0 ;
+		rentalStatus = RentalStatus.Rented ;
 		rentDate = new Date() ;
 	}
 
@@ -20,14 +20,18 @@ public class Rental {
 		this.video = video;
 	}
 
-	public int getStatus() {
-		return status;
+	public RentalStatus getRentalStatus() {
+		return rentalStatus;
+	}
+	public void setRentalStatus(RentalStatus status) {
+		rentalStatus = status;
 	}
 
 	public void returnVideo() {
-		if ( status == 1 ) {
-			this.status = 1;
+		if (isReturned(RentalStatus.Rented)) {
+			setRentalStatus(RentalStatus.Returned);
 			returnDate = new Date() ;
+			getVideo().setRented(false);
 		}
 	}
 	public Date getRentDate() {
@@ -53,22 +57,36 @@ public class Rental {
 		if ( daysRented <= 2) return limit ;
 
 		switch ( video.getVideoType() ) {
-			case Video.VHS: limit = 5 ; break ;
-			case Video.CD: limit = 3 ; break ;
-			case Video.DVD: limit = 2 ; break ;
+			case VHS: limit = 5 ; break ;
+			case CD: limit = 3 ; break ;
+			case DVD: limit = 2 ; break ;
 		}
 		return limit ;
 	}
 
 	public int getDaysRented() {
 		int daysRented;
-		if (getStatus() == 1) { // returned Video
-			long diff = returnDate.getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+		long diff;
+		if (isReturned(RentalStatus.Returned)) { // returned Video
+			diff = returnDate.getTime() - rentDate.getTime();
 		} else { // not yet returned
-			long diff = new Date().getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+			diff = new Date().getTime() - rentDate.getTime();
 		}
+		daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
 		return daysRented;
+	}
+
+	private boolean isReturned(RentalStatus returned) {
+		return getRentalStatus() == returned;
+	}
+
+
+	public boolean isRented(String videoTitle) {
+		return (getVideo().getTitle().equals(videoTitle) && getVideo().isRented());
+	}
+
+
+	public enum RentalStatus {
+		Rented, Returned
 	}
 }
