@@ -85,6 +85,29 @@ public class Rental {
 		return (getVideo().getTitle().equals(videoTitle) && getVideo().isRented());
 	}
 
+	int getPoint(int daysRented, int eachPoint) {
+		if ((getVideo().getPriceCode() == Video.NEW_RELEASE) )
+			eachPoint++;
+
+		if ( daysRented > getDaysRentedLimit() )
+			eachPoint -= Math.min(eachPoint, getVideo().getLateReturnPointPenalty()) ;
+		return eachPoint;
+	}
+
+	double getCharge(int daysRented, double eachCharge) {
+		switch (getVideo().getPriceCode()) {
+			case Video.REGULAR:
+				eachCharge += 2;
+				if (daysRented > 2)
+					eachCharge += (daysRented - 2) * 1.5;
+				break;
+			case Video.NEW_RELEASE:
+				eachCharge = daysRented * 3;
+				break;
+		}
+		return eachCharge;
+	}
+
 
 	public enum RentalStatus {
 		Rented, Returned
