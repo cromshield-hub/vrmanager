@@ -7,8 +7,6 @@ public abstract class Video {
 	public static final int REGULAR = 1 ;
 	public static final int NEW_RELEASE =2 ;
 
-	private VideoType videoType ;
-
 	private Date registeredDate ;
 	private boolean rented ;
 
@@ -53,18 +51,5 @@ public abstract class Video {
 
 	public void setRegisteredDate(Date registeredDate) {
 		this.registeredDate = registeredDate;
-	}
-
-	public VideoType getVideoType() {
-		return videoType;
-	}
-
-	protected void setVideoType(VideoType videoType) {
-		this.videoType = videoType;
-	}
-
-
-	public enum VideoType {
-		VHS, CD, DVD;
 	}
 }

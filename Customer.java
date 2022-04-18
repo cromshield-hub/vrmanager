@@ -45,18 +45,15 @@ public class Customer {
 			int daysRented = 0;
 
 			daysRented = each.getDaysRented();
-
 			eachCharge = each.getCharge(daysRented, eachCharge);
 
 			eachPoint++;
-
 			eachPoint = each.getPoint(daysRented, eachPoint);
 
 			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
 
 			totalCharge += eachCharge;
-
 			totalPoint += eachPoint ;
 		}
 

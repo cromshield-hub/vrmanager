@@ -8,7 +8,6 @@ public class VHSVideo extends Video {
         this.setTitle(title);
         this.setPriceCode(priceCode);
         this.setRegisteredDate(registeredDate);
-        this.setVideoType(VideoType.VHS);
     }
 
     @Override
