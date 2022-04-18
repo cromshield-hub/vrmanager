@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class VRUI {
 	private final VRManager VRManager = new VRManager();
 
@@ -74,7 +76,8 @@ public class VRUI {
 		System.out.println("\t 7. Show customer report");
 		System.out.println("\t 8. Show customer and clear rentals");
 
-		int command = VRManager.getScanner().nextInt() ;
+		Scanner scanner = new Scanner(System.in);
+		int command = scanner.nextInt() ;
 
 		return command ;
 

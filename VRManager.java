@@ -57,9 +57,9 @@ public class VRManager {
 
         List<Rental> customerRentals = foundCustomer.getRentals();
         for (Rental rental : customerRentals) {
-            if (rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented()) {
+            rental.returnVideo();
+            if (rental.isRented(videoTitle)) {
                 rental.returnVideo();
-                rental.getVideo().setRented(false);
                 break;
             }
         }
@@ -71,8 +71,9 @@ public class VRManager {
         customers.add(james);
         customers.add(brown);
 
-        Video v1 = new Video("v1", Video.CD, Video.REGULAR, new Date());
-        Video v2 = new Video("v2", Video.DVD, Video.NEW_RELEASE, new Date());
+        Video v1 = VideoFactory.createVideo(2, "v1", Video.REGULAR, new Date());
+
+        Video v2 = VideoFactory.createVideo(3, "v2", Video.NEW_RELEASE, new Date());
         videos.add(v1);
         videos.add(v2);
 
@@ -165,7 +166,7 @@ public class VRManager {
             int priceCode = getScanner().nextInt();
 
             Date registeredDate = new Date();
-            Video video = new Video(title, videoType, priceCode, registeredDate);
+            Video video = VideoFactory.createVideo(videoType, title, videoType, registeredDate);
             videos.add(video);
         }
     }
